@@ -2,7 +2,7 @@ import './sass/main.scss';
 import ApiService from './js/components/api-service';
 import galleryTemplate from './templates/gallery.hbs';
 import LoadMoreBtn from './js/components/load-more-btn';
-
+import debounce from 'lodash.debounce';
 const refs = {
   searchForm: document.querySelector('.js-search-form'),
   galleryContainer: document.querySelector('.js-gallery-container'),
@@ -39,6 +39,8 @@ function fetchGallery() {
   apiService.fetchGallery().then(gallery => {
     appendGalleryMarkup(gallery);
     loadMoreBtn.enable();
+
+    setTimeout(() => smoothScroll(), 1000);
   });
 }
 
@@ -48,4 +50,13 @@ function appendGalleryMarkup(gallery) {
 
 function clearGalleryContainer() {
   refs.galleryContainer.innerHTML = '';
+}
+
+function smoothScroll() {
+  const elems = document.querySelectorAll('.gallery');
+  elems[elems.length - 1].scrollIntoView({
+    behavior: 'smooth',
+    block: 'end',
+    inline: 'nearest',
+  });
 }

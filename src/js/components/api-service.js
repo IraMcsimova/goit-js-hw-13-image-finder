@@ -19,7 +19,8 @@ export default class ApiService {
       .then(({ hits }) => {
         this.incrementPage();
         return hits;
-      });
+      })
+      .catch(error => console.log('OOOps, something goes wrong!🤷‍♂️'));
   }
 
   incrementPage() {
